@@ -6,7 +6,6 @@ import org.springframework.web.client.RestTemplate;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 import br.com.tradx.tradxweb.dto.OrderbookDTO;
 import br.com.tradx.tradxweb.dto.SymbolDTO;
