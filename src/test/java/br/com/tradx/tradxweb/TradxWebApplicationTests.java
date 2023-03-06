@@ -24,14 +24,13 @@ class TradxWebApplicationTests {
 
 	@Test
 	void meracadoBitcoinTicker() {
-		SymbolDTO t = mercadoBitcoinService.getSymbol("BTC");
-		System.out.println(binanceService.getSymbol("BTCUSDT"));
+		System.out.println(mercadoBitcoinService.getSymbol("BTC-BRL"));
 		//System.out.println("\n\n\n\n\n\n\n\\" + t + "\n\n\n\n\n\n\n\\");
 	}
 	
 	@Test
 	void meracadoBitcoinOrderbook() {
-		System.out.println(dollarService.getPrice());
+		System.out.println(binanceService.getSymbol("BTCUSDT"));
 	}
 
 }

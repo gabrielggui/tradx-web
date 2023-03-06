@@ -29,7 +29,7 @@ public class BinanceApiService implements ExchangeService {
         jsonObject = fixJsonKeyValues(jsonObject);
 
         SymbolDTO symbolDTO = new Gson().fromJson(jsonObject, SymbolDTO.class);
-        symbolDTO.setName(symbolName);
+        symbolDTO.setPair(symbolName);
 
         return symbolDTO;
     }
@@ -49,8 +49,8 @@ public class BinanceApiService implements ExchangeService {
 
     private JsonObject fixJsonKeyValues(JsonObject jsonObject) {
 
-        String nameTmp = jsonObject.remove("symbol").getAsString();
-        jsonObject.addProperty("name", nameTmp);
+        String pairTmp = jsonObject.remove("symbol").getAsString();
+        jsonObject.addProperty("pair", pairTmp);
 
         double highTmp = jsonObject.remove("highPrice").getAsDouble();
         jsonObject.addProperty("high", highTmp);

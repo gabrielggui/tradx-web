@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
@@ -18,17 +19,16 @@ public class MercadoBitcoinApiService implements ExchangeService {
 	@Autowired
 	private RestTemplate restTemplate;
 
-	private final String urlApi = "https://www.mercadobitcoin.net/api/";
+	private final String urlApi = "https://api.mercadobitcoin.net/api/v4/";
 
 	@Override
 	public SymbolDTO getSymbol(String symbolName) {
 
-		String urlTicker = urlApi + symbolName + "/ticker";
+		String urlTicker = urlApi + "/tickers?symbols=" + symbolName;
 		String jsonStringResposta = restTemplate.getForObject(urlTicker, String.class);
-		JsonElement jsonElement = new Gson().fromJson(jsonStringResposta, JsonObject.class).get("ticker");
+		JsonElement jsonElement = new Gson().fromJson(jsonStringResposta, JsonArray.class).get(0);
 
 		SymbolDTO symbolDTO = new Gson().fromJson(jsonElement, SymbolDTO.class);
-		symbolDTO.setName(symbolName);
 
 		return symbolDTO;
 	}
@@ -40,9 +40,9 @@ public class MercadoBitcoinApiService implements ExchangeService {
 
 		OrderbookDTO orderbookDTO = restTemplate.getForObject(urlOrderbook, OrderbookDTO.class);
 
-        if (orderbookDTO != null) {
-            orderbookDTO.setSymbolName(symbolName);
-        }
+		if (orderbookDTO != null) {
+			orderbookDTO.setSymbolName(symbolName);
+		}
 
 		return orderbookDTO;
 	}

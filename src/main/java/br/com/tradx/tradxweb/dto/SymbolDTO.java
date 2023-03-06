@@ -2,7 +2,7 @@ package br.com.tradx.tradxweb.dto;
 
 public class SymbolDTO {
 
-    private String name;
+    private String pair;
     private Double high;
     private Double low;
     private Double vol;
@@ -11,30 +11,12 @@ public class SymbolDTO {
     private Double sell;
     private Long date;
 
-    public SymbolDTO() {
+    public String getPair() {
+        return pair;
     }
 
-    public SymbolDTO(String name) {
-        this.name = name;
-    }
-
-    public SymbolDTO(String name, Double high, Double low, Double vol, Double last, Double buy, Double sell, Long date) {
-        this.name = name;
-        this.high = high;
-        this.low = low;
-        this.vol = vol;
-        this.last = last;
-        this.buy = buy;
-        this.sell = sell;
-        this.date = date;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setPair(String pair) {
+        this.pair = pair;
     }
 
     public Double getHigh() {
@@ -95,8 +77,8 @@ public class SymbolDTO {
 
     @Override
     public String toString() {
-        return "Symbol [name=" + name + ", high=" + high + ", low=" + low + ", vol=" + vol + ", last=" + last + ", buy="
-                + buy + ", sell=" + sell + ", date=" + date + "]";
+        return "SymbolDTO [pair=" + pair + ", high=" + high + ", low=" + low + ", vol=" + vol + ", last=" + last
+                + ", buy=" + buy + ", sell=" + sell + ", date=" + date + "]";
     }
 
 }
