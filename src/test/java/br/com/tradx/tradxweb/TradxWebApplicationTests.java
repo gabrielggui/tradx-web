@@ -4,27 +4,27 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import br.com.tradx.tradxweb.model.Symbol;
-import br.com.tradx.tradxweb.service.exchange.BinanceExchangeService;
-import br.com.tradx.tradxweb.service.exchange.DollarService;
-import br.com.tradx.tradxweb.service.exchange.MercadoBitcoinExchangeService;
+import br.com.tradx.tradxweb.dto.SymbolDTO;
+import br.com.tradx.tradxweb.service.exchange.BinanceApiService;
+import br.com.tradx.tradxweb.service.exchange.DollarApiService;
+import br.com.tradx.tradxweb.service.exchange.MercadoBitcoinApiService;
 
 @SpringBootTest
 class TradxWebApplicationTests {
 
 
 	@Autowired
-	private MercadoBitcoinExchangeService mercadoBitcoinService;
+	private MercadoBitcoinApiService mercadoBitcoinService;
 
 	@Autowired
-	private BinanceExchangeService binanceService;
+	private BinanceApiService binanceService;
 
 	@Autowired
-	private DollarService dollarService;
+	private DollarApiService dollarService;
 
 	@Test
 	void meracadoBitcoinTicker() {
-		Symbol t = mercadoBitcoinService.getSymbol("BTC");
+		SymbolDTO t = mercadoBitcoinService.getSymbol("BTC");
 		System.out.println(binanceService.getSymbol("BTCUSDT"));
 		//System.out.println("\n\n\n\n\n\n\n\\" + t + "\n\n\n\n\n\n\n\\");
 	}

@@ -1,9 +1,6 @@
-package br.com.tradx.tradxweb.model;
+package br.com.tradx.tradxweb.dto;
 
-import org.springframework.stereotype.Component;
-
-@Component
-public class Symbol {
+public class SymbolDTO {
 
     private String name;
     private Double high;
@@ -14,14 +11,14 @@ public class Symbol {
     private Double sell;
     private Long date;
 
-    public Symbol() {
+    public SymbolDTO() {
     }
 
-    public Symbol(String name) {
+    public SymbolDTO(String name) {
         this.name = name;
     }
 
-    public Symbol(String name, Double high, Double low, Double vol, Double last, Double buy, Double sell, Long date) {
+    public SymbolDTO(String name, Double high, Double low, Double vol, Double last, Double buy, Double sell, Long date) {
         this.name = name;
         this.high = high;
         this.low = low;

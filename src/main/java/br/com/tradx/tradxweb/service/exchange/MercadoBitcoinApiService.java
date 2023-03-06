@@ -7,12 +7,13 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import br.com.tradx.tradxweb.model.Orderbook;
-import br.com.tradx.tradxweb.model.Symbol;
+import br.com.tradx.tradxweb.dto.OrderbookDTO;
+import br.com.tradx.tradxweb.dto.SymbolDTO;
+
 import org.springframework.stereotype.Service;
 
 @Service
-public class MercadoBitcoinExchangeService extends ExchangeService {
+public class MercadoBitcoinApiService extends ExchangeService {
 
 	@Autowired
 	private RestTemplate restTemplate;
@@ -20,27 +21,27 @@ public class MercadoBitcoinExchangeService extends ExchangeService {
 	private final String urlApi = "https://www.mercadobitcoin.net/api/";
 
 	@Override
-	public Symbol getSymbol(String symbolName) {
+	public SymbolDTO getSymbol(String symbolName) {
 
 		String urlTicker = urlApi + symbolName + "/ticker";
 		String jsonStringResposta = restTemplate.getForObject(urlTicker, String.class);
 		JsonElement jsonElement = new Gson().fromJson(jsonStringResposta, JsonObject.class).get("ticker");
 
-		Symbol symbol = new Gson().fromJson(jsonElement, Symbol.class);
-		symbol.setName(symbolName);
+		SymbolDTO symbolDTO = new Gson().fromJson(jsonElement, SymbolDTO.class);
+		symbolDTO.setName(symbolName);
 
-		return symbol;
+		return symbolDTO;
 	}
 
 	@Override
-	public Orderbook getOrderbook(Symbol symbol) {
+	public OrderbookDTO getOrderbook(SymbolDTO symbolDTO) {
 
-		String urlOrderbook = urlApi + symbol.getName() + "/orderbook";
+		String urlOrderbook = urlApi + symbolDTO.getName() + "/orderbook";
 
-		Orderbook orderbook = restTemplate.getForObject(urlOrderbook, Orderbook.class);
-		orderbook.setSymbol(symbol);
+		OrderbookDTO orderbookDTO = restTemplate.getForObject(urlOrderbook, OrderbookDTO.class);
+		orderbookDTO.setSymbol(symbolDTO);
 
-		return orderbook;
+		return orderbookDTO;
 	}
 
 }

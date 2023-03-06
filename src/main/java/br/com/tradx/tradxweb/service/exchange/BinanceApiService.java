@@ -9,11 +9,11 @@ import org.springframework.web.client.RestTemplate;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import br.com.tradx.tradxweb.model.Orderbook;
-import br.com.tradx.tradxweb.model.Symbol;
+import br.com.tradx.tradxweb.dto.OrderbookDTO;
+import br.com.tradx.tradxweb.dto.SymbolDTO;
 
 @Component
-public class BinanceExchangeService extends ExchangeService {
+public class BinanceApiService extends ExchangeService {
 
     @Autowired
     private RestTemplate restTemplate;
@@ -21,27 +21,27 @@ public class BinanceExchangeService extends ExchangeService {
     private final String urlApi = "https://api.binance.com/api/v3/";
 
     @Override
-    public Symbol getSymbol(String symbolName) {
+    public SymbolDTO getSymbol(String symbolName) {
 		String urlTicker = urlApi + "ticker/24hr?symbol=" + symbolName;
 		String jsonStringResposta = restTemplate.getForObject(urlTicker, String.class);
 		JsonObject jsonObject = new Gson().fromJson(jsonStringResposta, JsonObject.class);
 
         jsonObject = fixJsonKeyValues(jsonObject);
 
-		Symbol symbol = new Gson().fromJson(jsonObject, Symbol.class);
-		symbol.setName(symbolName);
+		SymbolDTO symbolDTO = new Gson().fromJson(jsonObject, SymbolDTO.class);
+		symbolDTO.setName(symbolName);
 
-		return symbol;
+		return symbolDTO;
     }
 
     @Override
-    public Orderbook getOrderbook(Symbol symbol) {
-        String urlOrderbook = urlApi + "depth?symbol=" + symbol.getName();
+    public OrderbookDTO getOrderbook(SymbolDTO symbolDTO) {
+        String urlOrderbook = urlApi + "depth?symbol=" + symbolDTO.getName();
 
-        Orderbook orderbook = restTemplate.getForObject(urlOrderbook, Orderbook.class);
-        orderbook.setSymbol(symbol);
+        OrderbookDTO orderbookDTO = restTemplate.getForObject(urlOrderbook, OrderbookDTO.class);
+        orderbookDTO.setSymbol(symbolDTO);
 
-        return orderbook;
+        return orderbookDTO;
     }
 
     private JsonObject fixJsonKeyValues(JsonObject jsonObject){

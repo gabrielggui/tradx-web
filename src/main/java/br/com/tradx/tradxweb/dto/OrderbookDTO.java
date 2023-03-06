@@ -1,21 +1,18 @@
-package br.com.tradx.tradxweb.model;
+package br.com.tradx.tradxweb.dto;
 
 import java.util.List;
 
-import org.springframework.stereotype.Component;
+public class OrderbookDTO {
 
-@Component
-public class Orderbook {
-
-    private Symbol symbol;
+    private SymbolDTO symbol;
     private List<List<Double>> asks;
     private List<List<Double>> bids;
 
-    public Symbol getSymbol() {
+    public SymbolDTO getSymbol() {
         return symbol;
     }
 
-    public void setSymbol(Symbol symbol) {
+    public void setSymbol(SymbolDTO symbol) {
         this.symbol = symbol;
     }
 

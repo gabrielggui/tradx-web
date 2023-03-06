@@ -8,7 +8,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 @Service
-public class DollarService {
+public class DollarApiService {
 
     @Autowired
     private RestTemplate restTemplate;
