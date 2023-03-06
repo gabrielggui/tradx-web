@@ -13,7 +13,7 @@ import br.com.tradx.tradxweb.dto.OrderbookDTO;
 import br.com.tradx.tradxweb.dto.SymbolDTO;
 
 @Component
-public class BinanceApiService extends ExchangeService {
+public class BinanceApiService implements ExchangeService {
 
     @Autowired
     private RestTemplate restTemplate;
@@ -22,30 +22,33 @@ public class BinanceApiService extends ExchangeService {
 
     @Override
     public SymbolDTO getSymbol(String symbolName) {
-		String urlTicker = urlApi + "ticker/24hr?symbol=" + symbolName;
-		String jsonStringResposta = restTemplate.getForObject(urlTicker, String.class);
-		JsonObject jsonObject = new Gson().fromJson(jsonStringResposta, JsonObject.class);
+        String urlTicker = urlApi + "ticker/24hr?symbol=" + symbolName;
+        String jsonStringResposta = restTemplate.getForObject(urlTicker, String.class);
+        JsonObject jsonObject = new Gson().fromJson(jsonStringResposta, JsonObject.class);
 
         jsonObject = fixJsonKeyValues(jsonObject);
 
-		SymbolDTO symbolDTO = new Gson().fromJson(jsonObject, SymbolDTO.class);
-		symbolDTO.setName(symbolName);
+        SymbolDTO symbolDTO = new Gson().fromJson(jsonObject, SymbolDTO.class);
+        symbolDTO.setName(symbolName);
 
-		return symbolDTO;
+        return symbolDTO;
     }
 
     @Override
-    public OrderbookDTO getOrderbook(SymbolDTO symbolDTO) {
-        String urlOrderbook = urlApi + "depth?symbol=" + symbolDTO.getName();
+    public OrderbookDTO getOrderbook(String symbolName) {
+        String urlOrderbook = urlApi + "depth?symbol=" + symbolName;
 
         OrderbookDTO orderbookDTO = restTemplate.getForObject(urlOrderbook, OrderbookDTO.class);
-        orderbookDTO.setSymbol(symbolDTO);
+
+        if (orderbookDTO != null) {
+            orderbookDTO.setSymbolName(symbolName);
+        }
 
         return orderbookDTO;
     }
 
-    private JsonObject fixJsonKeyValues(JsonObject jsonObject){
-        
+    private JsonObject fixJsonKeyValues(JsonObject jsonObject) {
+
         String nameTmp = jsonObject.remove("symbol").getAsString();
         jsonObject.addProperty("name", nameTmp);
 

@@ -6,8 +6,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import br.com.tradx.tradxweb.dto.SymbolDTO;
 import br.com.tradx.tradxweb.service.exchange.BinanceApiService;
-import br.com.tradx.tradxweb.service.exchange.DollarApiService;
 import br.com.tradx.tradxweb.service.exchange.MercadoBitcoinApiService;
+import br.com.tradx.tradxweb.service.forex.DollarApiService;
 
 @SpringBootTest
 class TradxWebApplicationTests {

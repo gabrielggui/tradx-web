@@ -13,7 +13,7 @@ import br.com.tradx.tradxweb.dto.SymbolDTO;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MercadoBitcoinApiService extends ExchangeService {
+public class MercadoBitcoinApiService implements ExchangeService {
 
 	@Autowired
 	private RestTemplate restTemplate;
@@ -34,12 +34,15 @@ public class MercadoBitcoinApiService extends ExchangeService {
 	}
 
 	@Override
-	public OrderbookDTO getOrderbook(SymbolDTO symbolDTO) {
+	public OrderbookDTO getOrderbook(String symbolName) {
 
-		String urlOrderbook = urlApi + symbolDTO.getName() + "/orderbook";
+		String urlOrderbook = urlApi + symbolName + "/orderbook";
 
 		OrderbookDTO orderbookDTO = restTemplate.getForObject(urlOrderbook, OrderbookDTO.class);
-		orderbookDTO.setSymbol(symbolDTO);
+
+        if (orderbookDTO != null) {
+            orderbookDTO.setSymbolName(symbolName);
+        }
 
 		return orderbookDTO;
 	}
