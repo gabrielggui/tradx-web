@@ -12,7 +12,6 @@ import br.com.tradx.tradxweb.service.forex.DollarApiService;
 @SpringBootTest
 class TradxWebApplicationTests {
 
-
 	@Autowired
 	private MercadoBitcoinApiService mercadoBitcoinService;
 
@@ -24,13 +23,13 @@ class TradxWebApplicationTests {
 
 	@Test
 	void meracadoBitcoinTicker() {
-		System.out.println(mercadoBitcoinService.getSymbol("BTC-BRL"));
+		System.out.println(mercadoBitcoinService.getOrderbook("BTC-BRL"));
 		//System.out.println("\n\n\n\n\n\n\n\\" + t + "\n\n\n\n\n\n\n\\");
 	}
 	
 	@Test
 	void meracadoBitcoinOrderbook() {
-		System.out.println(binanceService.getSymbol("BTCUSDT"));
+		System.out.println(binanceService.getOrderbook("BTCUSDT"));
 	}
 
 }

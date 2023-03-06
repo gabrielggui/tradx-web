@@ -4,16 +4,16 @@ import java.util.List;
 
 public class OrderbookDTO {
 
-    private String symbolName;
+    private String pair;
     private List<List<Double>> asks;
     private List<List<Double>> bids;
 
-    public String getSymbolName() {
-        return symbolName;
+    public String getPair() {
+        return pair;
     }
 
-    public void setSymbolName(String symbolName) {
-        this.symbolName = symbolName;
+    public void setPair(String pair) {
+        this.pair = pair;
     }
 
     public List<List<Double>> getAsks() {
@@ -34,6 +34,6 @@ public class OrderbookDTO {
 
     @Override
     public String toString() {
-        return "OrderbookDTO [symbolName=" + symbolName + ", asks=" + asks + ", bids=" + bids + "]";
+        return "OrderbookDTO [pair=" + pair + ", asks=" + asks + ", bids=" + bids + "]";
     }
 }

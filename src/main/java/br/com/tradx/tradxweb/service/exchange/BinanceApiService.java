@@ -41,7 +41,7 @@ public class BinanceApiService implements ExchangeService {
         OrderbookDTO orderbookDTO = restTemplate.getForObject(urlOrderbook, OrderbookDTO.class);
 
         if (orderbookDTO != null) {
-            orderbookDTO.setSymbolName(symbolName);
+            orderbookDTO.setPair(symbolName);
         }
 
         return orderbookDTO;
