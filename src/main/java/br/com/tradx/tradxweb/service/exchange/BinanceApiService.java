@@ -1,6 +1,8 @@
 package br.com.tradx.tradxweb.service.exchange;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.lang.reflect.Type;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -8,6 +10,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
 import br.com.tradx.tradxweb.dto.OrderbookDTO;
 import br.com.tradx.tradxweb.dto.SymbolDTO;
@@ -32,6 +35,21 @@ public class BinanceApiService implements ExchangeService {
         symbolDTO.setPair(symbolName);
 
         return symbolDTO;
+    }
+
+    @Override
+    public List<SymbolDTO> getSymbols(List<String> symbols) {
+        String symbolsParam = symbols
+                .parallelStream()
+                .map(symbol -> String.format("\"%s\"", symbol))
+                .toList().toString();
+        String urlTicker = urlApi + "ticker/24hr?symbols=" + symbolsParam;
+
+        Type typeOfObjectsList = new TypeToken<List<SymbolDTO>>() {}.getType();
+        String jsonStringResposta = restTemplate.getForObject(urlTicker, String.class);
+        List<SymbolDTO> symbolsList = new Gson().fromJson(jsonStringResposta, typeOfObjectsList);
+
+        return symbolsList;
     }
 
     @Override

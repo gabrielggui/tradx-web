@@ -1,5 +1,7 @@
 package br.com.tradx.tradxweb;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,8 +25,11 @@ class TradxWebApplicationTests {
 
 	@Test
 	void meracadoBitcoinTicker() {
-		System.out.println(mercadoBitcoinService.getOrderbook("BTC-BRL"));
+		List<String> s = List.of("ADABTC","BTCUSDT");
+		
+		System.out.println(binanceService.getSymbols(s));
 		//System.out.println("\n\n\n\n\n\n\n\\" + t + "\n\n\n\n\n\n\n\\");
+	
 	}
 	
 	@Test
