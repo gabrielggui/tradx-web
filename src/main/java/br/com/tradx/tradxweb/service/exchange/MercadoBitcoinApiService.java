@@ -34,12 +34,17 @@ public class MercadoBitcoinApiService implements ExchangeService {
 		return symbolDTO;
 	}
 
+	@Override
 	public List<SymbolDTO> getSymbols(List<String> symbols) {
-		String symbolsParam = symbols.toString().replace("[", "").replace("]", "").replace(" ", "");
-		String urlTicker = urlApi + "/tickers?symbols=" + symbolsParam;
+		String symbolsParam = symbols.toString()
+				.replace("[", "")
+				.replace("]", "")
+				.replace(" ", "");
 
-		Type typeOfObjectsList = new TypeToken<List<SymbolDTO>>(){}.getType();
+		String urlTicker = urlApi + "/tickers?symbols=" + symbolsParam;
 		String jsonStringResposta = restTemplate.getForObject(urlTicker, String.class);
+		
+		Type typeOfObjectsList = new TypeToken<List<SymbolDTO>>(){}.getType();
 		List<SymbolDTO> symbolsList = new Gson().fromJson(jsonStringResposta, typeOfObjectsList);
 
 		return symbolsList;

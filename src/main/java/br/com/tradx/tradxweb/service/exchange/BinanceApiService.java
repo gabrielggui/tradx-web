@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
@@ -42,12 +43,16 @@ public class BinanceApiService implements ExchangeService {
         String symbolsParam = symbols
                 .parallelStream()
                 .map(symbol -> String.format("\"%s\"", symbol))
-                .toList().toString();
+                .toList().toString().replace(" ", "");
         String urlTicker = urlApi + "ticker/24hr?symbols=" + symbolsParam;
 
-        Type typeOfObjectsList = new TypeToken<List<SymbolDTO>>() {}.getType();
         String jsonStringResposta = restTemplate.getForObject(urlTicker, String.class);
-        List<SymbolDTO> symbolsList = new Gson().fromJson(jsonStringResposta, typeOfObjectsList);
+        JsonArray jsonArray = new Gson().fromJson(jsonStringResposta, JsonArray.class);
+
+        List<SymbolDTO> symbolsList = jsonArray.asList().parallelStream()
+                .map(jsonElement -> fixJsonKeyValues(jsonElement.getAsJsonObject()))
+                .map(jsonObject -> new Gson().fromJson(jsonObject, SymbolDTO.class))
+                .toList();
 
         return symbolsList;
     }
