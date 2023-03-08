@@ -10,9 +10,9 @@ import br.com.tradx.tradxweb.dto.SymbolDTO;
 @Service
 public interface ExchangeService {
 
-    public SymbolDTO getSymbol(String symbolName);
+    public SymbolDTO getSymbolData(String symbolName);
 
-    public List<SymbolDTO> getSymbols(List<String> symbols);
+    public List<SymbolDTO> getSymbolData(List<String> symbols);
 
     public OrderbookDTO getOrderbook(String symbolName);
 
