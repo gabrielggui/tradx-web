@@ -27,25 +27,41 @@ public class MercadoBitcoinApiService implements ExchangeService {
 
 	private final String urlApi = "https://api.mercadobitcoin.net/api/v4/";
 
-    public SymbolDTO getSymbol(String symbolName){
-        return null;
-    }
+	public SymbolDTO getSymbol(String symbolName) {
+		return null;
+	}
 
-    public List<SymbolDTO> getAllSymbols(){
+	public List<SymbolDTO> getAllSymbols() {
 		String urlSymbols = urlApi + "symbols";
-		JsonObject jsonObject = restTemplate.getForObject(urlSymbols,  JsonObject.class);
+		String jsonStringResposta = restTemplate.getForObject(urlSymbols, String.class);
+		JsonObject jsonObject = new Gson().fromJson(jsonStringResposta, JsonObject.class);
+
+		if (jsonObject == null)
+			return null;
 
 		List<SymbolDTO> symbols = new ArrayList<>();
-		Map<String,JsonElement> jsonMap =  jsonObject.asMap();
 
+		int jsonArraySize = jsonObject.get("symbol").getAsJsonArray().size();
+		for (int i = 0; i < jsonArraySize; i++) {
+			SymbolDTO symbolDTO = new SymbolDTO();
+			symbolDTO.setName(jsonObject.get("symbol").getAsJsonArray().get(i).getAsString());
+			symbolDTO.setDescription(jsonObject.get("description").getAsJsonArray().get(i).getAsString());
+			symbolDTO.setCurrency(jsonObject.get("currency").getAsJsonArray().get(i).getAsString());
+			symbolDTO.setBaseCurrency(jsonObject.get("base-currency").getAsJsonArray().get(i).getAsString());
+			symbolDTO.setListed(jsonObject.get("exchange-listed").getAsJsonArray().get(i).getAsBoolean());
+			symbolDTO.setTraded(jsonObject.get("exchange-traded").getAsJsonArray().get(i).getAsBoolean());
 
-		List<SymbolDTO> symbolss = new ArrayList<>();
-		
-		jsonObject.get("").getAsJsonArray().asList();
+			String withdrawalFeeString = jsonObject.get("withdrawal-fee").getAsJsonArray().get(i).getAsString();
+			String withdrawalMinimumString = jsonObject.get("withdrawal-fee").getAsJsonArray().get(i).getAsString();
+			String depositMinimumString = jsonObject.get("withdrawal-fee").getAsJsonArray().get(i).getAsString();
 
-
-        return null;
-    }
+			symbolDTO.setWithdrawalFee(withdrawalFeeString.equals("") ? 0.0 : Double.parseDouble(withdrawalFeeString));
+			symbolDTO.setWithdrawalMinimum(withdrawalMinimumString.equals("") ? 0.0 : Double.parseDouble(withdrawalMinimumString));
+			symbolDTO.setDepositMinimum(depositMinimumString.equals("") ? 0.0 : Double.parseDouble(depositMinimumString));
+			symbols.add(symbolDTO);
+		}
+		return symbols;
+	}
 
 	@Override
 	public TickerDTO getTicker(String tickerName) {
@@ -67,8 +83,9 @@ public class MercadoBitcoinApiService implements ExchangeService {
 
 		String urlTicker = urlApi + "/tickers?symbols=" + tickersParam;
 		String jsonStringResposta = restTemplate.getForObject(urlTicker, String.class);
-		
-		Type typeOfObjectsList = new TypeToken<List<TickerDTO>>(){}.getType();
+
+		Type typeOfObjectsList = new TypeToken<List<TickerDTO>>() {
+		}.getType();
 		List<TickerDTO> tickerList = new Gson().fromJson(jsonStringResposta, typeOfObjectsList);
 
 		return tickerList;
