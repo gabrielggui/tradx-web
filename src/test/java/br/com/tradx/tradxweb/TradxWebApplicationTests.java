@@ -27,7 +27,7 @@ class TradxWebApplicationTests {
 	void meracadoBitcoinTicker() {
 		List<String> s = List.of("ADABTC","BTCUSDT");
 		
-		System.out.println(binanceService.getSymbols(s));
+		System.out.println(binanceService.getSymbolData(s));
 		//System.out.println("\n\n\n\n\n\n\n\\" + t + "\n\n\n\n\n\n\n\\");
 	
 	}
