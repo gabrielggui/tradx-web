@@ -13,6 +13,7 @@ import com.google.gson.JsonObject;
 
 import br.com.tradx.tradxweb.dto.OrderbookDTO;
 import br.com.tradx.tradxweb.dto.SymbolDTO;
+import br.com.tradx.tradxweb.dto.TickerDTO;
 
 @Component
 public class BinanceApiService implements ExchangeService {
@@ -22,47 +23,55 @@ public class BinanceApiService implements ExchangeService {
 
     private final String urlApi = "https://api.binance.com/api/v3/";
 
+    public SymbolDTO getSymbol(String symbolName){
+        return null;
+    }
+
+    public List<SymbolDTO> getAllSymbols(){
+        return null;
+    }
+
     @Override
-    public SymbolDTO getSymbolData(String symbolName) {
-        String urlTicker = urlApi + "ticker/24hr?symbol=" + symbolName;
+    public TickerDTO getTicker(String tickerName) {
+        String urlTicker = urlApi + "ticker/24hr?symbol=" + tickerName;
         String jsonStringResposta = restTemplate.getForObject(urlTicker, String.class);
         JsonObject jsonObject = new Gson().fromJson(jsonStringResposta, JsonObject.class);
 
         jsonObject = fixJsonKeyValues(jsonObject);
 
-        SymbolDTO symbolDTO = new Gson().fromJson(jsonObject, SymbolDTO.class);
-        symbolDTO.setPair(symbolName);
+        TickerDTO tickerDTO = new Gson().fromJson(jsonObject, TickerDTO.class);
+        tickerDTO.setPair(tickerName);
 
-        return symbolDTO;
+        return tickerDTO;
     }
 
     @Override
-    public List<SymbolDTO> getSymbolData(List<String> symbols) {
-        String symbolsParam = symbols
+    public List<TickerDTO> getTickers(List<String> tickers) {
+        String tickersParam = tickers
                 .parallelStream()
-                .map(symbol -> String.format("\"%s\"", symbol))
+                .map(ticker -> String.format("\"%s\"", ticker))
                 .toList().toString().replace(" ", "");
-        String urlTicker = urlApi + "ticker/24hr?symbols=" + symbolsParam;
+        String urlTicker = urlApi + "ticker/24hr?symbols=" + tickersParam;
 
         String jsonStringResposta = restTemplate.getForObject(urlTicker, String.class);
         JsonArray jsonArray = new Gson().fromJson(jsonStringResposta, JsonArray.class);
 
-        List<SymbolDTO> symbolsList = jsonArray.asList().parallelStream()
+        List<TickerDTO> tickerList = jsonArray.asList().parallelStream()
                 .map(jsonElement -> fixJsonKeyValues(jsonElement.getAsJsonObject()))
-                .map(jsonObject -> new Gson().fromJson(jsonObject, SymbolDTO.class))
+                .map(jsonObject -> new Gson().fromJson(jsonObject, TickerDTO.class))
                 .toList();
 
-        return symbolsList;
+        return tickerList;
     }
 
     @Override
-    public OrderbookDTO getOrderbook(String symbolName) {
-        String urlOrderbook = urlApi + "depth?symbol=" + symbolName;
+    public OrderbookDTO getOrderbook(String tickerName) {
+        String urlOrderbook = urlApi + "depth?symbol=" + tickerName;
 
         OrderbookDTO orderbookDTO = restTemplate.getForObject(urlOrderbook, OrderbookDTO.class);
 
         if (orderbookDTO != null) {
-            orderbookDTO.setPair(symbolName);
+            orderbookDTO.setPair(tickerName);
         }
 
         return orderbookDTO;

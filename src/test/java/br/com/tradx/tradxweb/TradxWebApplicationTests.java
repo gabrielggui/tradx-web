@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import br.com.tradx.tradxweb.dto.SymbolDTO;
+import br.com.tradx.tradxweb.dto.TickerDTO;
 import br.com.tradx.tradxweb.service.exchange.BinanceApiService;
 import br.com.tradx.tradxweb.service.exchange.MercadoBitcoinApiService;
 import br.com.tradx.tradxweb.service.forex.DollarApiService;
