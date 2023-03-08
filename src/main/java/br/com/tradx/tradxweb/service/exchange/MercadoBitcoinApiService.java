@@ -2,6 +2,7 @@ package br.com.tradx.tradxweb.service.exchange;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
@@ -35,6 +36,10 @@ public class MercadoBitcoinApiService implements ExchangeService {
 		JsonObject jsonObject = restTemplate.getForObject(urlSymbols,  JsonObject.class);
 
 		List<SymbolDTO> symbols = new ArrayList<>();
+		Map<String,JsonElement> jsonMap =  jsonObject.asMap();
+
+
+		List<SymbolDTO> symbolss = new ArrayList<>();
 		
 		jsonObject.get("").getAsJsonArray().asList();
 
