@@ -2,7 +2,6 @@ package br.com.tradx.tradxweb.service.exchange;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.lang.reflect.Type;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,7 +10,6 @@ import org.springframework.web.client.RestTemplate;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 
 import br.com.tradx.tradxweb.dto.OrderbookDTO;
 import br.com.tradx.tradxweb.dto.SymbolDTO;
@@ -25,7 +23,7 @@ public class BinanceApiService implements ExchangeService {
     private final String urlApi = "https://api.binance.com/api/v3/";
 
     @Override
-    public SymbolDTO getSymbol(String symbolName) {
+    public SymbolDTO getSymbolData(String symbolName) {
         String urlTicker = urlApi + "ticker/24hr?symbol=" + symbolName;
         String jsonStringResposta = restTemplate.getForObject(urlTicker, String.class);
         JsonObject jsonObject = new Gson().fromJson(jsonStringResposta, JsonObject.class);
@@ -39,7 +37,7 @@ public class BinanceApiService implements ExchangeService {
     }
 
     @Override
-    public List<SymbolDTO> getSymbols(List<String> symbols) {
+    public List<SymbolDTO> getSymbolData(List<String> symbols) {
         String symbolsParam = symbols
                 .parallelStream()
                 .map(symbol -> String.format("\"%s\"", symbol))

@@ -24,7 +24,7 @@ public class MercadoBitcoinApiService implements ExchangeService {
 	private final String urlApi = "https://api.mercadobitcoin.net/api/v4/";
 
 	@Override
-	public SymbolDTO getSymbol(String symbolName) {
+	public SymbolDTO getSymbolData(String symbolName) {
 		String urlTicker = urlApi + "/tickers?symbols=" + symbolName;
 		String jsonStringResposta = restTemplate.getForObject(urlTicker, String.class);
 		JsonElement jsonElement = new Gson().fromJson(jsonStringResposta, JsonArray.class).get(0);
@@ -35,7 +35,7 @@ public class MercadoBitcoinApiService implements ExchangeService {
 	}
 
 	@Override
-	public List<SymbolDTO> getSymbols(List<String> symbols) {
+	public List<SymbolDTO> getSymbolData(List<String> symbols) {
 		String symbolsParam = symbols.toString()
 				.replace("[", "")
 				.replace("]", "")
