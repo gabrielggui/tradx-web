@@ -1,6 +1,7 @@
 package br.com.tradx.tradxweb.service.exchange;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,24 +23,46 @@ public class BinanceApiService implements ExchangeService {
     private RestTemplate restTemplate;
 
     private final String urlApi = "https://api.binance.com/api/v3/";
+    
+	@Override
+	public List<SymbolDTO> getSymbols(List<String> symbols) {
+		String symbolsParam = "?symbols=" + symbols.toString()
+				.replace("[", "")
+				.replace("]", "")
+				.replace(" ", "");
+		String urlSymbols = urlApi + "symbols" + (symbols.size() != 0 ? symbolsParam : "");
+		String jsonStringResposta = restTemplate.getForObject(urlSymbols, String.class);
+		JsonObject jsonObject = new Gson().fromJson(jsonStringResposta, JsonObject.class);
 
-    @Override
-    public List<SymbolDTO> getSymbols(List<String> symbols) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getSymbols'");
-    }
+		if (jsonObject == null)
+			return null;
 
-    @Override
-    public List<SymbolDTO> getAllSymbols() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllSymbols'");
-    }
+		List<SymbolDTO> symbolsList = new ArrayList<>();
 
-    @Override
-    public SymbolDTO getSymbol(String symbolName) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getSymbol'");
-    }
+		int jsonArraySize = jsonObject.get("symbol").getAsJsonArray().size();
+		for (int i = 0; i < jsonArraySize; i++) {
+			SymbolDTO symbolDTO = new SymbolDTO();
+			symbolDTO.setName(jsonObject.get("symbol").getAsJsonArray().get(i).getAsString());
+			symbolDTO.setDescription(jsonObject.get("description").getAsJsonArray().get(i).getAsString());
+			symbolDTO.setCurrency(jsonObject.get("currency").getAsJsonArray().get(i).getAsString());
+			symbolDTO.setBaseCurrency(jsonObject.get("base-currency").getAsJsonArray().get(i).getAsString());
+			symbolDTO.setListed(jsonObject.get("exchange-listed").getAsJsonArray().get(i).getAsBoolean());
+			symbolDTO.setTraded(jsonObject.get("exchange-traded").getAsJsonArray().get(i).getAsBoolean());
+
+			symbolsList.add(symbolDTO);
+		}
+		return symbolsList;
+	}
+
+	@Override
+	public List<SymbolDTO> getAllSymbols() {
+		return getSymbols(new ArrayList<>());
+	}
+
+	@Override
+	public SymbolDTO getSymbol(String symbolName) {
+		return getSymbols(List.of(symbolName)).get(0);
+	}
 
     @Override
     public TickerDTO getTicker(String tickerName) {

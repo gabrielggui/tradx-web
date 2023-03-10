@@ -51,15 +51,6 @@ public class MercadoBitcoinApiService implements ExchangeService {
 			symbolDTO.setListed(jsonObject.get("exchange-listed").getAsJsonArray().get(i).getAsBoolean());
 			symbolDTO.setTraded(jsonObject.get("exchange-traded").getAsJsonArray().get(i).getAsBoolean());
 
-			String withdrawalFeeString = jsonObject.get("withdrawal-fee").getAsJsonArray().get(i).getAsString();
-			String withdrawalMinimumString = jsonObject.get("withdrawal-fee").getAsJsonArray().get(i).getAsString();
-			String depositMinimumString = jsonObject.get("withdrawal-fee").getAsJsonArray().get(i).getAsString();
-
-			symbolDTO.setWithdrawalFee(withdrawalFeeString.equals("") ? 0.0 : Double.parseDouble(withdrawalFeeString));
-			symbolDTO.setWithdrawalMinimum(
-					withdrawalMinimumString.equals("") ? 0.0 : Double.parseDouble(withdrawalMinimumString));
-			symbolDTO.setDepositMinimum(
-					depositMinimumString.equals("") ? 0.0 : Double.parseDouble(depositMinimumString));
 			symbolsList.add(symbolDTO);
 		}
 		return symbolsList;
