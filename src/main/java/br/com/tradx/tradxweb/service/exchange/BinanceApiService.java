@@ -23,12 +23,22 @@ public class BinanceApiService implements ExchangeService {
 
     private final String urlApi = "https://api.binance.com/api/v3/";
 
-    public SymbolDTO getSymbol(String symbolName){
-        return null;
+    @Override
+    public List<SymbolDTO> getSymbols(List<String> symbols) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getSymbols'");
     }
 
-    public List<SymbolDTO> getAllSymbols(){
-        return null;
+    @Override
+    public List<SymbolDTO> getAllSymbols() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getAllSymbols'");
+    }
+
+    @Override
+    public SymbolDTO getSymbol(String symbolName) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getSymbol'");
     }
 
     @Override
@@ -105,5 +115,4 @@ public class BinanceApiService implements ExchangeService {
 
         return jsonObject;
     }
-
 }

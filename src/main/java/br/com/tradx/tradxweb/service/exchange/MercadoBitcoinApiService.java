@@ -2,7 +2,6 @@ package br.com.tradx.tradxweb.service.exchange;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
@@ -27,19 +26,20 @@ public class MercadoBitcoinApiService implements ExchangeService {
 
 	private final String urlApi = "https://api.mercadobitcoin.net/api/v4/";
 
-	public SymbolDTO getSymbol(String symbolName) {
-		return null;
-	}
-
-	public List<SymbolDTO> getAllSymbols() {
-		String urlSymbols = urlApi + "symbols";
+	@Override
+	public List<SymbolDTO> getSymbols(List<String> symbols) {
+		String symbolsParam = "?symbols=" + symbols.toString()
+				.replace("[", "")
+				.replace("]", "")
+				.replace(" ", "");
+		String urlSymbols = urlApi + "symbols" + (symbols.size() != 0 ? symbolsParam : "");
 		String jsonStringResposta = restTemplate.getForObject(urlSymbols, String.class);
 		JsonObject jsonObject = new Gson().fromJson(jsonStringResposta, JsonObject.class);
 
 		if (jsonObject == null)
 			return null;
 
-		List<SymbolDTO> symbols = new ArrayList<>();
+		List<SymbolDTO> symbolsList = new ArrayList<>();
 
 		int jsonArraySize = jsonObject.get("symbol").getAsJsonArray().size();
 		for (int i = 0; i < jsonArraySize; i++) {
@@ -56,11 +56,23 @@ public class MercadoBitcoinApiService implements ExchangeService {
 			String depositMinimumString = jsonObject.get("withdrawal-fee").getAsJsonArray().get(i).getAsString();
 
 			symbolDTO.setWithdrawalFee(withdrawalFeeString.equals("") ? 0.0 : Double.parseDouble(withdrawalFeeString));
-			symbolDTO.setWithdrawalMinimum(withdrawalMinimumString.equals("") ? 0.0 : Double.parseDouble(withdrawalMinimumString));
-			symbolDTO.setDepositMinimum(depositMinimumString.equals("") ? 0.0 : Double.parseDouble(depositMinimumString));
-			symbols.add(symbolDTO);
+			symbolDTO.setWithdrawalMinimum(
+					withdrawalMinimumString.equals("") ? 0.0 : Double.parseDouble(withdrawalMinimumString));
+			symbolDTO.setDepositMinimum(
+					depositMinimumString.equals("") ? 0.0 : Double.parseDouble(depositMinimumString));
+			symbolsList.add(symbolDTO);
 		}
-		return symbols;
+		return symbolsList;
+	}
+
+	@Override
+	public List<SymbolDTO> getAllSymbols() {
+		return getSymbols(new ArrayList<>());
+	}
+
+	@Override
+	public SymbolDTO getSymbol(String symbolName) {
+		return getSymbols(List.of(symbolName)).get(0);
 	}
 
 	@Override
