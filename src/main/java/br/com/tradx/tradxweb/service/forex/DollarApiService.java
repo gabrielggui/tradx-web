@@ -20,7 +20,8 @@ public class DollarApiService {
         JsonObject jsonObject = new Gson()
                 .fromJson(jsonStringResposta, JsonObject.class)
                 .getAsJsonObject("USDBRL");
-
-        return jsonObject.get("ask").getAsDouble();
+        double bidPrice = jsonObject.get("bid").getAsDouble();
+        double askPrice = jsonObject.get("ask").getAsDouble();
+        return (askPrice + bidPrice) / 2;
     }
 }

@@ -21,6 +21,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class MercadoBitcoinApiService implements ExchangeService {
 
+    private static final String EXCHANGE_NAME = "Mercado Bitcoin";
+
 	@Autowired
 	private RestTemplate restTemplate;
 
@@ -105,5 +107,10 @@ public class MercadoBitcoinApiService implements ExchangeService {
 
 		return orderbookDTO;
 	}
+
+    @Override
+    public String exchangeName() {
+        return EXCHANGE_NAME;
+    }
 
 }

@@ -19,50 +19,50 @@ import br.com.tradx.tradxweb.dto.TickerDTO;
 @Component
 public class BinanceApiService implements ExchangeService {
 
+    private static final String EXCHANGE_NAME = "Binance";
+
     @Autowired
     private RestTemplate restTemplate;
 
     private final String urlApi = "https://api.binance.com/api/v3/";
-    
-	@Override
-	public List<SymbolDTO> getSymbols(List<String> symbols) {
-		String symbolsParam = "?symbols=" + symbols.toString()
-				.replace("[", "")
-				.replace("]", "")
-				.replace(" ", "");
-		String urlSymbols = urlApi + "symbols" + (symbols.size() != 0 ? symbolsParam : "");
-		String jsonStringResposta = restTemplate.getForObject(urlSymbols, String.class);
-		JsonObject jsonObject = new Gson().fromJson(jsonStringResposta, JsonObject.class);
 
-		if (jsonObject == null)
-			return null;
+    @Override
+    public List<SymbolDTO> getSymbols(List<String> symbols) {
+        String symbolsParam = "?symbols=" + symbols.toString().replace(" ", "");
+        String urlSymbols = urlApi + "exchangeInfo" + (symbols.size() != 0 ? symbolsParam : "");
+        String jsonStringResposta = restTemplate.getForObject(urlSymbols, String.class);
+        JsonObject jsonObject = new Gson().fromJson(jsonStringResposta, JsonObject.class);
 
-		List<SymbolDTO> symbolsList = new ArrayList<>();
+        if (jsonObject == null)
+            return null;
 
-		int jsonArraySize = jsonObject.get("symbol").getAsJsonArray().size();
-		for (int i = 0; i < jsonArraySize; i++) {
-			SymbolDTO symbolDTO = new SymbolDTO();
-			symbolDTO.setName(jsonObject.get("symbol").getAsJsonArray().get(i).getAsString());
-			symbolDTO.setDescription(jsonObject.get("description").getAsJsonArray().get(i).getAsString());
-			symbolDTO.setCurrency(jsonObject.get("currency").getAsJsonArray().get(i).getAsString());
-			symbolDTO.setBaseCurrency(jsonObject.get("base-currency").getAsJsonArray().get(i).getAsString());
-			symbolDTO.setListed(jsonObject.get("exchange-listed").getAsJsonArray().get(i).getAsBoolean());
-			symbolDTO.setTraded(jsonObject.get("exchange-traded").getAsJsonArray().get(i).getAsBoolean());
+        JsonArray jsonArray = jsonObject.get("symbols").getAsJsonArray();
+        List<SymbolDTO> symbolsList = new ArrayList<>();
 
-			symbolsList.add(symbolDTO);
-		}
-		return symbolsList;
-	}
+        int jsonArraySize = jsonArray.size();
+        for (int i = 0; i < jsonArraySize; i++) {
+            SymbolDTO symbolDTO = new SymbolDTO();
+            symbolDTO.setName(jsonArray.get(i).getAsJsonObject().get("symbol").getAsString());
+            symbolDTO.setDescription(jsonArray.get(i).getAsJsonObject().get("symbol").getAsString());
+            symbolDTO.setCurrency(jsonArray.get(i).getAsJsonObject().get("quoteAsset").getAsString());
+            symbolDTO.setBaseCurrency(jsonArray.get(i).getAsJsonObject().get("baseAsset").getAsString());
+            symbolDTO.setListed(true);
+            symbolDTO.setTraded(true);
 
-	@Override
-	public List<SymbolDTO> getAllSymbols() {
-		return getSymbols(new ArrayList<>());
-	}
+            symbolsList.add(symbolDTO);
+        }
+        return symbolsList;
+    }
 
-	@Override
-	public SymbolDTO getSymbol(String symbolName) {
-		return getSymbols(List.of(symbolName)).get(0);
-	}
+    @Override
+    public List<SymbolDTO> getAllSymbols() {
+        return getSymbols(new ArrayList<>());
+    }
+
+    @Override
+    public SymbolDTO getSymbol(String symbolName) {
+        return getSymbols(List.of(symbolName)).get(0);
+    }
 
     @Override
     public TickerDTO getTicker(String tickerName) {
@@ -110,6 +110,11 @@ public class BinanceApiService implements ExchangeService {
         return orderbookDTO;
     }
 
+    @Override
+    public String exchangeName() {
+        return EXCHANGE_NAME;
+    }
+
     private JsonObject fixJsonKeyValues(JsonObject jsonObject) {
 
         String pairTmp = jsonObject.remove("symbol").getAsString();
@@ -138,4 +143,5 @@ public class BinanceApiService implements ExchangeService {
 
         return jsonObject;
     }
+
 }

@@ -23,4 +23,5 @@ public interface ExchangeService {
 
     public OrderbookDTO getOrderbook(String symbolName);
 
+    public String exchangeName();
 }
