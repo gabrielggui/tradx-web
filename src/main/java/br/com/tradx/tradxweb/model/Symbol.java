@@ -126,4 +126,11 @@ public class Symbol {
     public void setExchange(Exchange exchange) {
         this.exchange = exchange;
     }
+
+    @Override
+    public String toString() {
+        return "Symbol [id=" + id + ", name=" + name + ", description=" + description + ", currency=" + currency
+                + ", baseCurrency=" + baseCurrency + ", listed=" + listed + ", traded=" + traded + ", exchange="
+                + exchange + "]";
+    }
 }
