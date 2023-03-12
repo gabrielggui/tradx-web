@@ -10,11 +10,9 @@ import br.com.tradx.tradxweb.service.DataMarketService;
 @Controller
 public class IndexController {
 
-    @Autowired
-    private DataMarketService dataService;
 
     @GetMapping("/")
-    public ModelAndView index() {
-        return new ModelAndView();
+    public String index() {
+        return "index";
     }
 }

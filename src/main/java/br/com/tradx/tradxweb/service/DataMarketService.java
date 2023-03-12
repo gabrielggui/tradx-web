@@ -2,54 +2,95 @@ package br.com.tradx.tradxweb.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import br.com.tradx.tradxweb.dto.SymbolDTO;
-import br.com.tradx.tradxweb.model.Exchange;
 import br.com.tradx.tradxweb.model.Symbol;
-import br.com.tradx.tradxweb.repository.SymbolRepository;
-import br.com.tradx.tradxweb.service.exchange.BinanceApiService;
-import br.com.tradx.tradxweb.service.exchange.ExchangeService;
-import br.com.tradx.tradxweb.service.exchange.MercadoBitcoinApiService;
-import br.com.tradx.tradxweb.service.forex.DollarApiService;
+import br.com.tradx.tradxweb.model.Ticker;
+import br.com.tradx.tradxweb.model.TriangleArbitrage;
 import jakarta.annotation.PostConstruct;
 
 @Service
 public class DataMarketService {
 
     @Autowired
-    private MercadoBitcoinApiService mercadoBitcoinApiService;
-
-    @Autowired
     private BinanceApiService binanceApiService;
 
-    @Autowired
-    private DollarApiService dollarApiService;
+    private List<TriangleArbitrage> arbitragePairsCombination = new ArrayList<>();
 
-    @Autowired
-    private SymbolRepository symbolRepository;
-
-    private final List<SymbolDTO> symbolsIntersection = new ArrayList<>();
+    private int maxRetries = 3;
 
     @PostConstruct
-    private void updateMarketDatabase() throws Exception {
+    private void generateArbitragePairsCombinations() throws InterruptedException {
+        try {
+            List<Symbol> binanceSymbols = binanceApiService.getAllSymbols();
+            List<Symbol> symbol1BuyList = binanceSymbols.parallelStream()
+                    .filter(symbol -> symbol.getCurrency().equals("USDT")).toList();
 
-        List<SymbolDTO> mbSymbolDTOs = mercadoBitcoinApiService.getAllSymbols();
-        List<SymbolDTO> binanceSymbolDTOs = mercadoBitcoinApiService.getAllSymbols();
+            for (Symbol symbol1Buy : symbol1BuyList) {
+                List<Symbol> symbol2BuyList = binanceSymbols.parallelStream()
+                        .filter(symbol -> symbol.getCurrency().equals(symbol1Buy.getBaseCurrency())).toList();
 
-        for (SymbolDTO mbSymbolDTO : mbSymbolDTOs) {
-            for (SymbolDTO binanceSymbolDTO : binanceSymbolDTOs) {
-                if (mbSymbolDTO.getBaseCurrency().equals(binanceSymbolDTO.getBaseCurrency())){
-                    symbolsIntersection.add(mbSymbolDTO);
-                    continue;
+                for (Symbol symbol2Buy : symbol2BuyList) {
+                    Symbol symbol3Sell = symbol1BuyList.parallelStream()
+                            .filter(symbol -> symbol.getBaseCurrency().equals(symbol2Buy.getBaseCurrency()))
+                            .findFirst().orElse(null);
+
+                    if (symbol3Sell != null) {
+                        arbitragePairsCombination.add(new TriangleArbitrage(symbol1Buy, symbol2Buy, symbol3Sell));
+
+                    }
                 }
             }
+        } catch (Exception e) {
+            retryGenerateArbitragePairsCombinations();
         }
-        System.out.println(symbolsIntersection);
     }
 
+    private void retryGenerateArbitragePairsCombinations() throws InterruptedException {
+        if (maxRetries != 0) {
+            maxRetries--;
+            System.out.println();
+            System.out.println(maxRetries);
+            System.out.println();
+            new Thread(() -> {
+                try {
+                    Thread.sleep(10000);
+                    generateArbitragePairsCombinations();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        } else {
+            System.err.println("Erro na execução do método " +
+                    "\"generateArbitragePairsCombinations()\", " +
+                    "favor reiniciar a aplicação.");
+        }
+    }
+
+    @Scheduled(initialDelay = 5000, fixedDelay = 5000)
+    private void metodo() {
+        if (arbitragePairsCombination != null && arbitragePairsCombination.size() != 0) {
+            List<Ticker> allTickers = binanceApiService.getAllTickers();
+
+            arbitragePairsCombination = arbitragePairsCombination.parallelStream().map(triangleArbitrage -> {
+                triangleArbitrage.setSymbol1BuyTicker(allTickers.parallelStream()
+                        .filter(ticker -> ticker.getPair().equals(triangleArbitrage.getSymbol1Buy().getName()))
+                        .findFirst().orElseThrow());
+
+                triangleArbitrage.setSymbol2BuyTicker(allTickers.parallelStream()
+                        .filter(ticker -> ticker.getPair().equals(triangleArbitrage.getSymbol2Buy().getName()))
+                        .findFirst().orElseThrow());
+
+                triangleArbitrage.setSymbol3SellTicker(allTickers.parallelStream()
+                        .filter(ticker -> ticker.getPair().equals(triangleArbitrage.getSymbol3Sell().getName()))
+                        .findFirst().orElseThrow());
+
+                return triangleArbitrage;
+            }).toList();
+            System.out.println(arbitragePairsCombination);
+        }
+    }
 }

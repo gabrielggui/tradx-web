@@ -1,4 +1,4 @@
-package br.com.tradx.tradxweb.service.exchange;
+package br.com.tradx.tradxweb.service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -12,9 +12,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import br.com.tradx.tradxweb.dto.OrderbookDTO;
-import br.com.tradx.tradxweb.dto.SymbolDTO;
-import br.com.tradx.tradxweb.dto.TickerDTO;
+import br.com.tradx.tradxweb.dto.Orderbook;
+import br.com.tradx.tradxweb.model.Symbol;
+import br.com.tradx.tradxweb.model.Ticker;
 
 @Component
 public class BinanceApiService implements ExchangeService {
@@ -27,7 +27,7 @@ public class BinanceApiService implements ExchangeService {
     private final String urlApi = "https://api.binance.com/api/v3/";
 
     @Override
-    public List<SymbolDTO> getSymbols(List<String> symbols) {
+    public List<Symbol> getSymbols(List<String> symbols) {
         String symbolsParam = "?symbols=" + symbols.toString().replace(" ", "");
         String urlSymbols = urlApi + "exchangeInfo" + (symbols.size() != 0 ? symbolsParam : "");
         String jsonStringResposta = restTemplate.getForObject(urlSymbols, String.class);
@@ -37,77 +37,87 @@ public class BinanceApiService implements ExchangeService {
             return null;
 
         JsonArray jsonArray = jsonObject.get("symbols").getAsJsonArray();
-        List<SymbolDTO> symbolsList = new ArrayList<>();
+        List<Symbol> symbolsList = new ArrayList<>();
 
         int jsonArraySize = jsonArray.size();
         for (int i = 0; i < jsonArraySize; i++) {
-            SymbolDTO symbolDTO = new SymbolDTO();
-            symbolDTO.setName(jsonArray.get(i).getAsJsonObject().get("symbol").getAsString());
-            symbolDTO.setDescription(jsonArray.get(i).getAsJsonObject().get("symbol").getAsString());
-            symbolDTO.setCurrency(jsonArray.get(i).getAsJsonObject().get("quoteAsset").getAsString());
-            symbolDTO.setBaseCurrency(jsonArray.get(i).getAsJsonObject().get("baseAsset").getAsString());
-            symbolDTO.setListed(true);
-            symbolDTO.setTraded(true);
+            Symbol symbol = new Symbol();
+            String symbolStatus = jsonArray.get(i).getAsJsonObject().get("status").getAsString();
 
-            symbolsList.add(symbolDTO);
+            if (!symbolStatus.equals("TRADING"))
+                continue;
+
+            symbol.setName(jsonArray.get(i).getAsJsonObject().get("symbol").getAsString());
+            symbol.setDescription(jsonArray.get(i).getAsJsonObject().get("symbol").getAsString());
+            symbol.setCurrency(jsonArray.get(i).getAsJsonObject().get("quoteAsset").getAsString());
+            symbol.setBaseCurrency(jsonArray.get(i).getAsJsonObject().get("baseAsset").getAsString());
+            symbol.setListed(true);
+            symbol.setTraded(true);
+
+            symbolsList.add(symbol);
         }
         return symbolsList;
     }
 
     @Override
-    public List<SymbolDTO> getAllSymbols() {
+    public List<Symbol> getAllSymbols() {
         return getSymbols(new ArrayList<>());
     }
 
     @Override
-    public SymbolDTO getSymbol(String symbolName) {
+    public Symbol getSymbol(String symbolName) {
         return getSymbols(List.of(symbolName)).get(0);
     }
 
     @Override
-    public TickerDTO getTicker(String tickerName) {
-        String urlTicker = urlApi + "ticker/24hr?symbol=" + tickerName;
-        String jsonStringResposta = restTemplate.getForObject(urlTicker, String.class);
-        JsonObject jsonObject = new Gson().fromJson(jsonStringResposta, JsonObject.class);
-
-        jsonObject = fixJsonKeyValues(jsonObject);
-
-        TickerDTO tickerDTO = new Gson().fromJson(jsonObject, TickerDTO.class);
-        tickerDTO.setPair(tickerName);
-
-        return tickerDTO;
-    }
-
-    @Override
-    public List<TickerDTO> getTickers(List<String> tickers) {
+    public List<Ticker> getTickers(List<String> tickers) {
         String tickersParam = tickers
                 .parallelStream()
                 .map(ticker -> String.format("\"%s\"", ticker))
                 .toList().toString().replace(" ", "");
-        String urlTicker = urlApi + "ticker/24hr?symbols=" + tickersParam;
+        String urlTicker = urlApi + "ticker/24hr" + (tickers.size() > 0 ? "?symbols=" + tickersParam : "");
 
         String jsonStringResposta = restTemplate.getForObject(urlTicker, String.class);
         JsonArray jsonArray = new Gson().fromJson(jsonStringResposta, JsonArray.class);
 
-        List<TickerDTO> tickerList = jsonArray.asList().parallelStream()
+        List<Ticker> tickerList = jsonArray.asList().parallelStream()
                 .map(jsonElement -> fixJsonKeyValues(jsonElement.getAsJsonObject()))
-                .map(jsonObject -> new Gson().fromJson(jsonObject, TickerDTO.class))
+                .map(jsonObject -> new Gson().fromJson(jsonObject, Ticker.class))
                 .toList();
 
         return tickerList;
     }
 
     @Override
-    public OrderbookDTO getOrderbook(String tickerName) {
+    public Ticker getTicker(String tickerName) {
+        String urlTicker = urlApi + "ticker/24hr?symbol=" + tickerName;
+        String jsonStringResposta = restTemplate.getForObject(urlTicker, String.class);
+        JsonObject jsonObject = new Gson().fromJson(jsonStringResposta, JsonObject.class);
+
+        jsonObject = fixJsonKeyValues(jsonObject);
+
+        Ticker ticker = new Gson().fromJson(jsonObject, Ticker.class);
+        ticker.setPair(tickerName);
+
+        return ticker;
+    }
+
+    @Override
+    public List<Ticker> getAllTickers() {
+        return getTickers(new ArrayList<String>());
+    }
+
+    @Override
+    public Orderbook getOrderbook(String tickerName) {
         String urlOrderbook = urlApi + "depth?symbol=" + tickerName;
 
-        OrderbookDTO orderbookDTO = restTemplate.getForObject(urlOrderbook, OrderbookDTO.class);
+        Orderbook orderbook = restTemplate.getForObject(urlOrderbook, Orderbook.class);
 
-        if (orderbookDTO != null) {
-            orderbookDTO.setPair(tickerName);
+        if (orderbook != null) {
+            orderbook.setPair(tickerName);
         }
 
-        return orderbookDTO;
+        return orderbook;
     }
 
     @Override

@@ -1,75 +1,16 @@
 package br.com.tradx.tradxweb.model;
 
-import java.util.UUID;
+import org.springframework.stereotype.Component;
 
-import br.com.tradx.tradxweb.dto.SymbolDTO;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-
-@Entity
+@Component
 public class Symbol {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
-
-    @Column(nullable = false)
     private String name;
-
-    @Column(nullable = false)
     private String description;
-
-    @Column(nullable = false)
     private String currency;
-
-    @Column(nullable = false)
     private String baseCurrency;
-
-    @Column(nullable = false)
-    private Boolean listed;
-
-    @Column(nullable = false)
-    private Boolean traded;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Exchange exchange;
-
-    public Symbol() {
-    }
-
-    public Symbol(UUID id, String name, String description, String currency, String baseCurrency, Boolean listed,
-            Boolean traded, Exchange exchange) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.currency = currency;
-        this.baseCurrency = baseCurrency;
-        this.listed = listed;
-        this.traded = traded;
-        this.exchange = exchange;
-    }
-
-    public Symbol(SymbolDTO symbolDTO) {
-        this.name = symbolDTO.getName();
-        this.description = symbolDTO.getDescription();
-        this.currency = symbolDTO.getCurrency();
-        this.baseCurrency = symbolDTO.getBaseCurrency();
-        this.listed = symbolDTO.isListed();
-        this.traded = symbolDTO.isTraded();
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
+    private boolean listed;
+    private boolean traded;
 
     public String getName() {
         return name;
@@ -103,34 +44,26 @@ public class Symbol {
         this.baseCurrency = baseCurrency;
     }
 
-    public Boolean getListed() {
+    public boolean isListed() {
         return listed;
     }
 
-    public void setListed(Boolean listed) {
+    public void setListed(boolean listed) {
         this.listed = listed;
     }
 
-    public Boolean getTraded() {
+    public boolean isTraded() {
         return traded;
     }
 
-    public void setTraded(Boolean traded) {
+    public void setTraded(boolean traded) {
         this.traded = traded;
-    }
-
-    public Exchange getExchange() {
-        return exchange;
-    }
-
-    public void setExchange(Exchange exchange) {
-        this.exchange = exchange;
     }
 
     @Override
     public String toString() {
-        return "Symbol [id=" + id + ", name=" + name + ", description=" + description + ", currency=" + currency
-                + ", baseCurrency=" + baseCurrency + ", listed=" + listed + ", traded=" + traded + ", exchange="
-                + exchange + "]";
+        return "SymbolDTO [name=" + name + ", description=" + description + ", currency=" + currency + ", baseCurrency="
+                + baseCurrency + ", listed=" + listed + ", traded=" + traded + "]";
     }
+
 }

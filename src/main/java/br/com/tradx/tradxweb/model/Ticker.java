@@ -1,6 +1,9 @@
-package br.com.tradx.tradxweb.dto;
+package br.com.tradx.tradxweb.model;
 
-public class TickerDTO {
+import org.springframework.stereotype.Component;
+
+@Component
+public class Ticker {
 
     private String pair;
     private Double high;

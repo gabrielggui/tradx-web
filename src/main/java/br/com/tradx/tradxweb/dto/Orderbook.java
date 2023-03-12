@@ -2,7 +2,7 @@ package br.com.tradx.tradxweb.dto;
 
 import java.util.List;
 
-public class OrderbookDTO {
+public class Orderbook {
 
     private String pair;
     private List<List<Double>> asks;
