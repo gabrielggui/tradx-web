@@ -1,4 +1,4 @@
-package br.com.tradx.tradxweb.config;
+package br.com.arbify.arbifyweb.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

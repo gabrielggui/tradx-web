@@ -1,4 +1,4 @@
-package br.com.tradx.tradxweb.service;
+package br.com.arbify.arbifyweb.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import br.com.tradx.tradxweb.model.Symbol;
-import br.com.tradx.tradxweb.model.Ticker;
-import br.com.tradx.tradxweb.model.TriangleArbitrage;
+import br.com.arbify.arbifyweb.model.Symbol;
+import br.com.arbify.arbifyweb.model.Ticker;
+import br.com.arbify.arbifyweb.model.TriangleArbitrage;
 import jakarta.annotation.PostConstruct;
 
 @Service

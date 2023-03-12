@@ -9,11 +9,11 @@
 		<version>3.0.4</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>br.com.tradx</groupId>
-	<artifactId>tradx-web</artifactId>
+	<groupId>br.com.arbify</groupId>
+	<artifactId>arbify-web</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>tradx-web</name>
-	<description>Demo project for Spring Boot</description>
+	<name>arbify-web</name>
+	<description>Sistema de arbitragem triangular entre criptomoedas</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>

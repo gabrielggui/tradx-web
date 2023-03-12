@@ -1,12 +1,12 @@
-package br.com.tradx.tradxweb.service;
+package br.com.arbify.arbifyweb.service;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import br.com.tradx.tradxweb.dto.Orderbook;
-import br.com.tradx.tradxweb.model.Symbol;
-import br.com.tradx.tradxweb.model.Ticker;
+import br.com.arbify.arbifyweb.dto.Orderbook;
+import br.com.arbify.arbifyweb.model.Symbol;
+import br.com.arbify.arbifyweb.model.Ticker;
 
 @Service
 public interface ExchangeService {

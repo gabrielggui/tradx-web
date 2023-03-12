@@ -1,4 +1,4 @@
-package br.com.tradx.tradxweb.model;
+package br.com.arbify.arbifyweb.model;
 
 import org.springframework.stereotype.Component;
 

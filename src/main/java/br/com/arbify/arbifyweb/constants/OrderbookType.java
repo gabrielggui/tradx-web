@@ -1,4 +1,4 @@
-package br.com.tradx.tradxweb.constants;
+package br.com.arbify.arbifyweb.constants;
 
 import org.springframework.stereotype.Component;
 

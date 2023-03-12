@@ -1,4 +1,4 @@
-package br.com.tradx.tradxweb.dto;
+package br.com.arbify.arbifyweb.dto;
 
 import java.util.List;
 

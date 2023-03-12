@@ -1,4 +1,4 @@
-package br.com.tradx.tradxweb.service;
+package br.com.arbify.arbifyweb.service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -12,9 +12,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import br.com.tradx.tradxweb.dto.Orderbook;
-import br.com.tradx.tradxweb.model.Symbol;
-import br.com.tradx.tradxweb.model.Ticker;
+import br.com.arbify.arbifyweb.dto.Orderbook;
+import br.com.arbify.arbifyweb.model.Symbol;
+import br.com.arbify.arbifyweb.model.Ticker;
 
 @Component
 public class BinanceApiService implements ExchangeService {
