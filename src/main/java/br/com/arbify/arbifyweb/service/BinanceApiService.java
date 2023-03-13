@@ -19,12 +19,10 @@ import br.com.arbify.arbifyweb.model.Ticker;
 @Component
 public class BinanceApiService implements ExchangeService {
 
-    private static final String EXCHANGE_NAME = "Binance";
-
     @Autowired
     private RestTemplate restTemplate;
 
-    private final String urlApi = "https://api.binance.com/api/v3/";
+    private final String urlApi = "https://api.binance.us/api/v3/";
 
     @Override
     public List<Symbol> getSymbols(List<String> symbols) {
@@ -118,11 +116,6 @@ public class BinanceApiService implements ExchangeService {
         }
 
         return orderbook;
-    }
-
-    @Override
-    public String exchangeName() {
-        return EXCHANGE_NAME;
     }
 
     private JsonObject fixJsonKeyValues(JsonObject jsonObject) {

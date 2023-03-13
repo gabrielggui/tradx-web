@@ -24,6 +24,5 @@ public interface ExchangeService {
     public List<Ticker> getAllTickers();
 
     public Orderbook getOrderbook(String symbolName);
-
-    public String exchangeName();
+    
 }

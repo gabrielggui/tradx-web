@@ -6,13 +6,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.com.arbify.arbifyweb.service.DataMarketService;
+import br.com.arbify.arbifyweb.service.IconService;
 
 @Controller
 public class IndexController {
 
+    @Autowired
+    private DataMarketService dataMarketService;
+
+    @Autowired
+    private IconService iconService;
 
     @GetMapping("/")
-    public String index() {
-        return "index";
+    public ModelAndView index() {
+        return new ModelAndView("index2")
+                .addObject("arbitragePairsProfitables", dataMarketService.getArbitragePairsProfitables())
+                .addObject("iconService",iconService);
     }
 }

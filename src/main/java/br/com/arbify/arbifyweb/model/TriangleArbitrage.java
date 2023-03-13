@@ -10,6 +10,7 @@ public class TriangleArbitrage {
     private Ticker symbol1BuyTicker;
     private Ticker symbol2BuyTicker;
     private Ticker symbol3SellTicker;
+    private double profit;
 
     public TriangleArbitrage() {
     }
@@ -60,6 +61,7 @@ public class TriangleArbitrage {
 
     public void setSymbol1BuyTicker(Ticker symbol1BuyTicker) {
         this.symbol1BuyTicker = symbol1BuyTicker;
+        calculateProfit();
     }
 
     public Ticker getSymbol2BuyTicker() {
@@ -68,6 +70,7 @@ public class TriangleArbitrage {
 
     public void setSymbol2BuyTicker(Ticker symbol2BuyTicker) {
         this.symbol2BuyTicker = symbol2BuyTicker;
+        calculateProfit();
     }
 
     public Ticker getSymbol3SellTicker() {
@@ -76,13 +79,29 @@ public class TriangleArbitrage {
 
     public void setSymbol3SellTicker(Ticker symbol3SellTicker) {
         this.symbol3SellTicker = symbol3SellTicker;
+        calculateProfit();
+    }
+
+    public double getProfit() {
+        return profit;
+    }
+
+    private void calculateProfit() {
+        if (symbol1BuyTicker != null && symbol2BuyTicker != null && symbol3SellTicker != null) {
+            // (((1/symbol1BuyTicker.getSell())/symbol2BuyTicker.getSell())*symbol3SellTicker.getBuy()-1)*100;
+            this.profit = 1 / symbol1BuyTicker.getSell();
+            this.profit /= symbol2BuyTicker.getSell();
+            this.profit *= symbol3SellTicker.getBuy();
+            this.profit = (this.profit - 1) * 100;
+            this.profit = Double.valueOf(String.format("%.2f", this.profit).replace(",", "."));
+        }
     }
 
     @Override
     public String toString() {
         return "TriangleArbitrage [symbol1Buy=" + symbol1Buy + ", symbol2Buy=" + symbol2Buy + ", symbol3Sell="
                 + symbol3Sell + ", symbol1BuyTicker=" + symbol1BuyTicker + ", symbol2BuyTicker=" + symbol2BuyTicker
-                + ", symbol3SellTicker=" + symbol3SellTicker + "]";
+                + ", symbol3SellTicker=" + symbol3SellTicker + ", profit=" + profit + "]";
     }
 
 }

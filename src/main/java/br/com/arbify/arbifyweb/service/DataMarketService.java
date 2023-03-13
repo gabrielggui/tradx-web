@@ -18,7 +18,9 @@ public class DataMarketService {
     @Autowired
     private BinanceApiService binanceApiService;
 
-    private List<TriangleArbitrage> arbitragePairsCombination = new ArrayList<>();
+    private List<TriangleArbitrage> arbitragePairsCombinations = new ArrayList<>();
+
+    private List<TriangleArbitrage> arbitragePairsProfitables = new ArrayList<>();
 
     private int maxRetries = 3;
 
@@ -39,7 +41,7 @@ public class DataMarketService {
                             .findFirst().orElse(null);
 
                     if (symbol3Sell != null) {
-                        arbitragePairsCombination.add(new TriangleArbitrage(symbol1Buy, symbol2Buy, symbol3Sell));
+                        arbitragePairsCombinations.add(new TriangleArbitrage(symbol1Buy, symbol2Buy, symbol3Sell));
 
                     }
                 }
@@ -52,9 +54,6 @@ public class DataMarketService {
     private void retryGenerateArbitragePairsCombinations() throws InterruptedException {
         if (maxRetries != 0) {
             maxRetries--;
-            System.out.println();
-            System.out.println(maxRetries);
-            System.out.println();
             new Thread(() -> {
                 try {
                     Thread.sleep(10000);
@@ -71,26 +70,40 @@ public class DataMarketService {
     }
 
     @Scheduled(initialDelay = 5000, fixedDelay = 5000)
-    private void metodo() {
-        if (arbitragePairsCombination != null && arbitragePairsCombination.size() != 0) {
-            List<Ticker> allTickers = binanceApiService.getAllTickers();
+    private void generateArbitragePairsProfitables() {
 
-            arbitragePairsCombination = arbitragePairsCombination.parallelStream().map(triangleArbitrage -> {
-                triangleArbitrage.setSymbol1BuyTicker(allTickers.parallelStream()
-                        .filter(ticker -> ticker.getPair().equals(triangleArbitrage.getSymbol1Buy().getName()))
-                        .findFirst().orElseThrow());
+        List<Ticker> allTickers = binanceApiService.getAllTickers();
 
-                triangleArbitrage.setSymbol2BuyTicker(allTickers.parallelStream()
-                        .filter(ticker -> ticker.getPair().equals(triangleArbitrage.getSymbol2Buy().getName()))
-                        .findFirst().orElseThrow());
+        if (arbitragePairsCombinations != null && arbitragePairsCombinations.size() != 0 &&
+                allTickers != null && allTickers.size() != 0) {
 
-                triangleArbitrage.setSymbol3SellTicker(allTickers.parallelStream()
-                        .filter(ticker -> ticker.getPair().equals(triangleArbitrage.getSymbol3Sell().getName()))
-                        .findFirst().orElseThrow());
+            arbitragePairsProfitables = arbitragePairsCombinations.parallelStream().map(triangleArbitrage -> {
+
+                allTickers.parallelStream().forEach(ticker -> {
+                    if (ticker.getPair().equals(triangleArbitrage.getSymbol1Buy().getName())) {
+                        triangleArbitrage.setSymbol1BuyTicker(ticker);
+                    } else if (ticker.getPair().equals(triangleArbitrage.getSymbol2Buy().getName())) {
+                        triangleArbitrage.setSymbol2BuyTicker(ticker);
+                    } else if (ticker.getPair().equals(triangleArbitrage.getSymbol3Sell().getName())) {
+                        triangleArbitrage.setSymbol3SellTicker(ticker);
+                    }
+
+                    if (triangleArbitrage.getSymbol1Buy() != null &&
+                            triangleArbitrage.getSymbol2Buy() != null &&
+                            triangleArbitrage.getSymbol3Sell() != null) {
+                        return;
+                    }
+
+                });
 
                 return triangleArbitrage;
-            }).toList();
-            System.out.println(arbitragePairsCombination);
+
+            }).toList();//.filter(triangleArbitrage -> triangleArbitrage.getProfit() > 0.0)
         }
     }
+
+    public List<TriangleArbitrage> getArbitragePairsProfitables() {
+        return arbitragePairsProfitables;
+    }
+
 }
