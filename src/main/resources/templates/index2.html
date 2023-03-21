@@ -29,7 +29,7 @@
                     class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#!">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="#!">Sobre</a></li>
                     <li class="nav-item"><a class="nav-link" href="#!">Ferramentas para traders</a></li>
                     <li class="nav-item"><a class="nav-link" href="#!">API</a></li>
@@ -57,33 +57,37 @@
         </div>
     </header>
     <!-- Testimonials-->
-    <section class="testimonials text-center bg-light">
+    <section class="testimonials text-center">
         <div class="container">
-            <h2 class="mb-5">What people are saying...</h2>
+            <h2 class="mb-4 display-3">Nossos serviços</h2>
             <div class="row">
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                        <img class="img-fluid rounded-circle mb-3"
-                            src="https://s3.amazonaws.com/assets.coingecko.com/app/public/ckeditor_assets/pictures/5285/content_TRADING_%282%29.png" />
-                        <h5>Margaret E.</h5>
-                        <p class="font-weight-light mb-0">"This is fantastic! Thanks so much guys!"</p>
+                        <img class="img-fluid rounded-circle mb-3" src="assets/img/13.jpg" />
+                        <h5>Bolsa de Valores</h5>
+                        <p class="font-weight-light mb-0">Monitoramento de preços e de indicadores técnicos e
+                            fundamentalistas para os mais diversos ativos da bolsa brasileira.</p>
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                        <img class="img-fluid rounded-circle mb-3"
-                            src="https://startbootstrap.github.io/startbootstrap-landing-page/assets/img/testimonials-2.jpg"
-                            alt="..." />
-                        <h5>Fred S.</h5>
-                        <p class="font-weight-light mb-0">"Bootstrap is amazing. I've been using it to create lots of
-                            super nice landing pages."</p>
+                        <img class="img-fluid rounded-circle mb-3" src="assets/img/10.jpg" />
+                        <h5>Criptomoedas</h5>
+                        <p class="font-weight-light mb-0">Monitoramento de preços, indicadores e de oportunidades para
+                            operações de arbitragem triangular e entre exchanges.</p>
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                        <img class="img-fluid rounded-circle mb-3"
-                            src="https://startbootstrap.github.io/startbootstrap-landing-page/assets/img/testimonials-3.jpg"
-                            alt="..." />
+                        <img class="img-fluid rounded-circle mb-3" src="assets/img/11.jpg" />
+                        <h5>Forex</h5>
+                        <p class="font-weight-light mb-0">Monitoramento de preços e de indicadores para os mais diversos
+                            ativos, como moedas, índices, commodities, metais, etc.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+                        <img class="img-fluid rounded-circle mb-3" src="assets/img/12.jpg" />
                         <h5>Sarah W.</h5>
                         <p class="font-weight-light mb-0">"Thanks so much for making these free resources available to
                             us!"</p>
@@ -275,20 +279,6 @@
                     offset: 74,
                 });
             };
-
-            // Collapse responsive navbar when toggler is visible
-            const navbarToggler = document.body.querySelector('.navbar-toggler');
-            const responsiveNavItems = [].slice.call(
-                document.querySelectorAll('#navbarResponsive .nav-link')
-            );
-            responsiveNavItems.map(function (responsiveNavItem) {
-                responsiveNavItem.addEventListener('click', () => {
-                    if (window.getComputedStyle(navbarToggler).display !== 'none') {
-                        navbarToggler.click();
-                    }
-                });
-            });
-
         });
     </script>
 </body>

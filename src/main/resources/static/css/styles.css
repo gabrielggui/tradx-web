@@ -12349,17 +12349,17 @@ header.masthead .masthead-image-size {
 
   #mainNav .navbar-brand {
     font-size: 1.5em;
-    transition: font-size 0.15s ease-in-out;
+    transition: font-size 0.15s;
   }
 
   #mainNav .nav-item .nav-link {
     font-size: 0.96em;
-    transition: font-size 0.15s ease-in-out;
+    transition: 0.15s;
   }
 
   #mainNav .navbar-brand img {
     height: 2rem;
-    transition: height 0.15s ease-in-out;
+    transition: 0.15s;
   }
   #mainNav.navbar-shrink {
     padding-top: 1rem;
