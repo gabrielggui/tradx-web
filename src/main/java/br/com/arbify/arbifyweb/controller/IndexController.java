@@ -19,8 +19,15 @@ public class IndexController {
 
     @GetMapping("/")
     public ModelAndView index() {
-        return new ModelAndView("index2")
+        return new ModelAndView("index")
                 .addObject("arbitragePairsProfitables", dataMarketService.getArbitragePairsProfitables())
                 .addObject("iconService",iconService);
+    }
+
+    @GetMapping("tools/arbitrage/triangular")
+    public ModelAndView arbitragemTriangular(){
+        return new ModelAndView("triangulararbitrage")
+        .addObject("arbitragePairsProfitables", dataMarketService.getArbitragePairsProfitables())
+        .addObject("iconService",iconService);
     }
 }
