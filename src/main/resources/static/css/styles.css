@@ -8817,7 +8817,7 @@ fieldset:disabled .btn {
 
 .bg-footer {
   --bs-bg-opacity: 1;
-  background-image: linear-gradient(8deg, rgba(3, 0, 48, 1) 50%, rgba(28, 108, 102, 1) 75%);
+  background-image: linear-gradient(15deg, rgba(3,0,48,1) 50%, rgba(70,20,85,1) 70%, rgba(28,108,102,1) 94%, rgba(28,108,102,1) 100%);
 }
 
 .bg-white {
@@ -12376,10 +12376,11 @@ header.masthead .masthead-image-size {
     height: 2rem;
     transition: 0.15s;
   }
+
   #mainNav.navbar-shrink {
     padding-top: 1rem;
     padding-bottom: 1rem;
-    background: rgba(3,0,48,0.9);
+    background: rgba(3, 0, 48, 0.9);
   }
 
   #mainNav.navbar-shrink .navbar-brand {
@@ -12395,16 +12396,24 @@ header.masthead .masthead-image-size {
     height: 1.5rem;
   }
 }
+
 .services {
   padding-top: 7rem;
   padding-bottom: 7rem;
 }
+
 .services .service-item {
   max-width: 18rem;
 }
+
 .services .service-item img {
   max-width: 12rem;
 }
+
 .about-image-alignment {
   text-align: right !important;
+}
+
+.call-to-action {
+  padding: 3rem 0;
 }
