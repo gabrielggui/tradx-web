@@ -23,6 +23,13 @@ public class IndexController {
                 .addObject("arbitragePairsProfitables", dataMarketService.getArbitragePairsProfitables())
                 .addObject("iconService",iconService);
     }
+    
+    @GetMapping("/login")
+    public ModelAndView login() {
+        return new ModelAndView("login")
+                .addObject("arbitragePairsProfitables", dataMarketService.getArbitragePairsProfitables())
+                .addObject("iconService",iconService);
+    }
 
     @GetMapping("tools/arbitrage/triangular")
     public ModelAndView arbitragemTriangular(){

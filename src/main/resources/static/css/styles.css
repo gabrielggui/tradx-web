@@ -62,7 +62,7 @@
   --bs-body-font-weight: 400;
   --bs-body-line-height: 1.5;
   --bs-body-color: #212529;
-  --bs-body-bg: #fafafa;
+  --bs-body-bg: #ffffff;
   --bs-footer-bg: 3, 0, 48;
 }
 
@@ -12404,4 +12404,7 @@ header.masthead .masthead-image-size {
 }
 .services .service-item img {
   max-width: 12rem;
+}
+.about-image-alignment {
+  text-align: right !important;
 }
