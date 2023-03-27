@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.thymeleaf.org ">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Arbitragem triangular | Criptomoedas | TradX</title>
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i"
+        rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/assets/css/styles.css" rel="stylesheet" />
+</head>
+
+<body id="page-top">
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top" id="mainNav">
+        <div class="container px-3">
+            <a class="navbar-brand" href="/#">
+                <img src="/assets/img/logo.png">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span
+                    class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="/#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <span>@<span th:text="${authentication.name}"></span></span>
+                            <img src="https://th.bing.com/th/id/OIP.1asifY692Tb7m4S1HQgVkwHaHa?pid=ImgDet&rs=1"
+                                class="rounded-circle" height="25" />
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">Meu perfil</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="/logout">Sair</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Header-->
+    <header class="breadcrumb text-white">
+        <div class="breadcrumb-content">
+            <div class="container px-3">
+                <h1 class="display-4">Arbitragem triangular</h1>
+                <!-- Breadcrumb -->
+                <nav class="d-flex">
+                    <h6 class="mb-0">
+                        <a href="/" class="text-reset">Home</a>
+                        <span>/</span>
+                        <a href="/" class="text-reset">Criptomoedas</a>
+                        <span>/</span>
+                        <a href="/" class="text-reset"><u>Arbitragem triangular</u></a>
+                    </h6>
+                </nav>
+                <!-- Breadcrumb -->
+            </div>
+        </div>
+    </header>
+    <!-- Content section 2-->
+    <section class="mt-5" id="scroll">
+        <div class="container px-5">
+            <div class="row gx-5 align-items-center">
+
+                <h6 class="display-5">Escolha uma exchange:</h6>
+                <ul class="nav nav-tabs nav-fill mb-3" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
+                            data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home"
+                            aria-selected="true">Binance.US</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill"
+                            data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile"
+                            aria-selected="false">Binance Global</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill"
+                            data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact"
+                            aria-selected="false">Coinbase</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill"
+                            data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact"
+                            aria-selected="false">Bitfinex</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill"
+                            data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact"
+                            aria-selected="false">Bitstamp</button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
+                        aria-labelledby="pills-home-tab">
+
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Compra 1</th>
+                                        <th>Compra 2</th>
+                                        <th>Venda</th>
+                                        <th>% Lucro</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-group-divider">
+                                    <tr th:each=" arbitragePairs : ${arbitragePairsProfitables}">
+                                        <td>
+                                            <img width="20px"
+                                                th:src="${iconService.getImage(arbitragePairs.symbol1Buy.baseCurrency)}">
+                                            <span th:text="${arbitragePairs.symbol1Buy.name}">
+                                        </td>
+                                        <td>
+                                            <img width="20px"
+                                                th:src="${iconService.getImage(arbitragePairs.symbol2Buy.baseCurrency)}">
+                                            <span th:text="${arbitragePairs.symbol2Buy.name}">
+                                        </td>
+                                        <td>
+                                            <img width="20px"
+                                                th:src="${iconService.getImage(arbitragePairs.symbol3Sell.baseCurrency)}">
+                                            <span th:text="${arbitragePairs.symbol3Sell.name}">
+                                        </td>
+                                        <td th:text="${arbitragePairs.profit}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                        <div class="text-center">
+                            <h1>Indisponível</h1>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+                        <div class="text-center">
+                            <h1>Indisponível</h1>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+                        <div class="text-center">
+                            <h1>Indisponível</h1>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+                        <div class="text-center">
+                            <h1>Indisponível</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="container mt-5 mb-5 text-center">
+            <h2 class="display-5">Precisa de ajuda?</h2>
+            <a href="mailto:suporte@tradx.com.br">
+                <h1 class="display-3--title">suporte@tradx.com.br</h1>
+            </a>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer class="text-white bg-footer text-center">
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+            © 2023 Copyright:
+            <a class="text-white" href="/">TradX.com.br</a>
+            <span> | Versão 0.0.1-SNAPSHOT</span>
+        </div>
+        <!-- Copyright -->
+    </footer>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="/assets/js/scripts.js"></script>
+    <script>
+
+        window.addEventListener('DOMContentLoaded', event => {
+
+            // Navbar shrink function
+            var navbarShrink = function () {
+                const navbarCollapsible = document.body.querySelector('#mainNav');
+                if (!navbarCollapsible) {
+                    return;
+                }
+                if (window.scrollY === 0) {
+                    navbarCollapsible.classList.remove('navbar-shrink')
+                } else {
+                    navbarCollapsible.classList.add('navbar-shrink')
+                }
+
+            };
+
+            // Shrink the navbar 
+            navbarShrink();
+
+            // Shrink the navbar when page is scrolled
+            document.addEventListener('scroll', navbarShrink);
+
+            // Activate Bootstrap scrollspy on the main nav element
+            const mainNav = document.body.querySelector('#mainNav');
+            if (mainNav) {
+                new bootstrap.ScrollSpy(document.body, {
+                    target: '#mainNav',
+                    offset: 74,
+                });
+            };
+        });
+    </script>
+</body>
+
+</html>

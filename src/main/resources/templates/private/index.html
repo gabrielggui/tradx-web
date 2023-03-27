@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.thymeleaf.org ">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Página inicial | TradX</title>
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i"
+        rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/assets/css/styles.css" rel="stylesheet" />
+</head>
+
+<body>
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+            <path
+                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+        </symbol>
+        <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+            <path
+                d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+        </symbol>
+        <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+            <path
+                d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+        </symbol>
+    </svg>
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top" id="mainNav">
+        <div class="container px-3">
+            <a class="navbar-brand" href="/#">
+                <img src="/assets/img/logo.png">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span
+                    class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="/#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <span>@<span th:text="${authentication.name}"></span></span>
+                            <img src="https://th.bing.com/th/id/OIP.1asifY692Tb7m4S1HQgVkwHaHa?pid=ImgDet&rs=1"
+                                class="rounded-circle" height="25" />
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">Meu perfil</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="/logout">Sair</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header-->
+    <header class="breadcrumb text-white text-center">
+        <div class="breadcrumb-content">
+            <div class="container px-3">
+                <h2 class="display-4">
+                    <span>Olá,</span>
+                    <span th:text="${authentication.name.trim}"></span>
+                </h2>
+                <span>Escolha uma das opções abaixo:</span>
+            </div>
+        </div>
+    </header>
+    <!-- Content section 2-->
+    <section class="mt-5 text-center" id="servicos">
+        <div class="container">
+            <div class="alert alert-warning d-flex alert-dismissible fade show" role="alert">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+                    <use xlink:href="#exclamation-triangle-fill" />
+                </svg>
+                <span><strong>Atenção:</strong> o sistema encontra-se em desenvolvimento. Alguns resursos poderão estar
+                    indisponíveis ou não funcionarem corretamente.</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 mb-4">
+                    <div class="card">
+                        <img src="/assets/img/13.jpg" class="card-img-top">
+                        <div style="padding: 15px;" class="card-body">
+                            <h5 style="margin: 0;">Bolsa de Valores</h5>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                Ações
+                            </li>
+                            </li>
+                            <li class="list-group-item">
+                                Fundos imobiliários
+                            </li>
+                            </li>
+                            <li class="list-group-item">
+                                Outros ativos
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 mb-4">
+                    <div class="card">
+                        <img src="/assets/img/10.jpg" class="card-img-top">
+                        <div style="padding: 15px;" class="card-body">
+                            <h5 style="margin: 0;">Criptomoedas</h5>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                Ativos
+                            </li>
+                            </li>
+                            <li class="list-group-item">
+                                Arbitragem entre exchanges
+                            </li>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="/criptomoedas/arbitragem/triangular" class="card-link">Arbitragem
+                                    triangular</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 mb-4">
+                    <div class="card">
+                        <img src="/assets/img/11.jpg" class="card-img-top">
+                        <div style="padding: 15px;" class="card-body">
+                            <h5 style="margin: 0;">Forex</h5>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                Moedas
+                            </li>
+                            </li>
+                            <li class="list-group-item">
+                                Índices
+                            </li>
+                            </li>
+                            <li class="list-group-item">
+                                Outros ativos
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 mb-4">
+                    <div class="card">
+                        <img src="/assets/img/16.jpg" class="card-img-top">
+                        <div style="padding: 15px;" class="card-body">
+                            <h5 style="margin: 0;">Gestão de Capital</h5>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                Planilha de Trading
+                            </li>
+                            </li>
+                            <li class="list-group-item">
+                                Calculadoras
+                            </li>
+                            </li>
+                            <li class="list-group-item">
+                                Outros
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="container mt-5 mb-5 text-center">
+            <h2 class="display-5">Precisa de ajuda?</h2>
+            <a href="mailto:suporte@tradx.com.br">
+                <h1 class="display-3--title">suporte@tradx.com.br</h1>
+            </a>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer class="text-white bg-footer text-center">
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+            © 2023 Copyright:
+            <a class="text-white" href="/">TradX.com.br</a>
+            <span> | Versão 0.0.1-SNAPSHOT</span>
+        </div>
+        <!-- Copyright -->
+    </footer>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="/assets/js/scripts.js"></script>
+    <script>
+
+        window.addEventListener('DOMContentLoaded', event => {
+
+            // Navbar shrink function
+            var navbarShrink = function () {
+                const navbarCollapsible = document.body.querySelector('#mainNav');
+                if (!navbarCollapsible) {
+                    return;
+                }
+                if (window.scrollY === 0) {
+                    navbarCollapsible.classList.remove('navbar-shrink')
+                } else {
+                    navbarCollapsible.classList.add('navbar-shrink')
+                }
+
+            };
+
+            // Shrink the navbar 
+            navbarShrink();
+
+            // Shrink the navbar when page is scrolled
+            document.addEventListener('scroll', navbarShrink);
+
+            // Activate Bootstrap scrollspy on the main nav element
+            const mainNav = document.body.querySelector('#mainNav');
+            if (mainNav) {
+                new bootstrap.ScrollSpy(document.body, {
+                    target: '#mainNav',
+                    offset: 74,
+                });
+            };
+        });
+    </script>
+</body>
+
+</html>

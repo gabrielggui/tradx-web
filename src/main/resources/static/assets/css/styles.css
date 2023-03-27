@@ -8817,7 +8817,7 @@ fieldset:disabled .btn {
 
 .bg-footer {
   --bs-bg-opacity: 1;
-  background-image: linear-gradient(15deg, rgba(3,0,48,1) 50%, rgba(70,20,85,1) 70%, rgba(28,108,102,1) 94%, rgba(28,108,102,1) 100%);
+  background-image: linear-gradient(15deg, rgba(3, 0, 48, 1) 50%, rgba(70, 20, 85, 1) 70%, rgba(28, 108, 102, 1) 94%, rgba(28, 108, 102, 1) 100%);
 }
 
 .bg-white {
@@ -12415,5 +12415,6 @@ header.masthead .masthead-image-size {
 }
 
 .call-to-action {
-  padding: 3rem 0;
+  padding-top: 3rem;
+  padding-bottom: 2rem;
 }

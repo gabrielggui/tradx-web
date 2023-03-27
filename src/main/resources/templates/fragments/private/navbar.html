@@ -1,0 +1,29 @@
+<div class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top" id="mainNav">
+    <div class="container px-3">
+        <a class="navbar-brand" href="/#">
+            <img src="/assets/img/logo.png">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+            aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span
+                class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/#" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <span>@<span th:text="${authentication.name}"></span></span>
+                        <img src="https://th.bing.com/th/id/OIP.1asifY692Tb7m4S1HQgVkwHaHa?pid=ImgDet&rs=1"
+                            class="rounded-circle" height="25" />
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#">Meu perfil</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="/logout">Sair</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
